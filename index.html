@@ -8,15 +8,15 @@
     :root{
       --pink:#ff6fa3;
       --deep:#c21960;
+      --text:#fff;
     }
-    html,body{height:100%;margin:0;font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    html,body{height:100%;margin:0;font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:#000}
     body{
-      background: linear-gradient(180deg, #fff0f5 0%, #ffe6f0 100%);
-      color: #2b2b2b;
+      color:var(--text);
       overflow:hidden;
     }
 
-    /* slideshow full-screen */
+    /* ---------- SLIDESHOW (imágenes en la raíz del repo) ---------- */
     .slideshow{
       position:fixed; inset:0; z-index:0; overflow:hidden;
     }
@@ -26,7 +26,8 @@
       top:0; left:0;
       opacity:0;
       animation:slide 30s linear infinite;
-      filter: saturate(1.05) contrast(1.03);
+      filter: saturate(1.05) contrast(1.04);
+      transform-origin:center;
     }
     .slideshow img:nth-child(1){animation-delay:0s}
     .slideshow img:nth-child(2){animation-delay:6s}
@@ -34,57 +35,79 @@
     .slideshow img:nth-child(4){animation-delay:18s}
     .slideshow img:nth-child(5){animation-delay:24s}
     @keyframes slide{
-      0%{opacity:0; transform:scale(1.02)}
+      0%{opacity:0; transform:scale(1.03)}
       8%{opacity:1; transform:scale(1)}
       20%{opacity:1; transform:scale(1)}
       28%{opacity:0; transform:scale(0.98)}
       100%{opacity:0}
     }
 
-    /* soft overlay so text is readable */
-    .overlay{
-      position:fixed; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0.18), rgba(0,0,0,0.25));
-      z-index:1;
+    /* suave overlay para ayudar lectura sin recuadro */
+    .overlay {
+      position:fixed; inset:0; z-index:1;
+      background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.30) 100%);
       pointer-events:none;
     }
 
-    /* big faint background word */
+    /* marca de agua grande */
     .watermark{
-      position:fixed; top:8vh; left:50%; transform:translateX(-50%);
-      font-size:8vw; font-weight:800; color:rgba(255,90,140,0.08);
-      z-index:1; letter-spacing:1px; white-space:nowrap; pointer-events:none;
+      position:fixed; top:6vh; left:50%; transform:translateX(-50%);
+      font-size:8vw; font-weight:900; color:rgba(255,90,140,0.10);
+      z-index:1; pointer-events:none; white-space:nowrap;
+      text-transform:uppercase; letter-spacing:2px;
     }
 
-    /* content card (transparent) */
-    .content{
+    /* CONTENIDO (sin recuadro) */
+    .content {
       position:relative; z-index:2;
-      max-width:920px; margin:6vh auto; padding:3.2rem;
-      backdrop-filter: blur(4px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0.15));
-      border-radius:18px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-      color:#2b2b2b;
-      overflow:auto; max-height:84vh;
+      max-width:980px;
+      margin:8vh auto;
+      padding:0 20px;
+      color:var(--text);
+      text-shadow: 2px 2px 14px rgba(0,0,0,0.8);
+      line-height:1.6;
+      overflow:auto;
+      max-height:84vh;
+      box-sizing:border-box;
+    }
+    h1{margin:0 0 0.5rem 0; text-align:center; color:var(--pink); font-size:clamp(1.6rem,3.8vw,2.6rem)}
+    h2{margin:0 0 1rem 0; text-align:center; color:var(--deep); font-size:1.05rem; font-weight:700}
+    p{margin:0 0 1rem 0; font-size:1rem; text-align:justify}
+    .small{font-size:0.95rem; text-align:center; color:rgba(255,255,255,0.95)}
+
+    /* corazones cayendo (ornamento) */
+    .heart {
+      position:fixed;
+      width:18px; height:18px;
+      background: #ff7fb8;
+      transform: rotate(45deg);
+      border-radius:2px;
+      z-index:0;
+      opacity:0.9;
+      animation:fall linear infinite;
+      box-shadow:0 2px 6px rgba(0,0,0,0.25);
+    }
+    .heart::before, .heart::after {
+      content:""; position:absolute; width:18px; height:18px; background:#ff7fb8; border-radius:50%;
+    }
+    .heart::before{ top:-9px; left:0 }
+    .heart::after{ left:-9px; top:0 }
+    @keyframes fall {
+      0%{ transform: translateY(-10vh) rotate(45deg); opacity:1 }
+      100%{ transform: translateY(110vh) rotate(45deg); opacity:0 }
     }
 
-    h1{ margin:0 0 0.6rem 0; color:var(--deep); font-size:clamp(1.6rem,3.4vw,2.4rem); text-align:center }
-    h2{ margin:0 0 1rem 0; text-align:center; color:var(--pink); font-weight:700 }
-    p{ margin:0 0 1rem 0; line-height:1.6; font-size:1rem }
-    .small{ font-size:0.92rem; color:rgba(0,0,0,0.6) }
-
-    /* footer */
-    .footer{ text-align:center; margin-top:1rem; color:rgba(0,0,0,0.6); font-size:0.95rem }
-
-    /* responsive tweaks */
-    @media (max-width:600px){
-      .content{ margin:4vh 16px; padding:1.6rem; border-radius:12px }
-      .watermark{ font-size:12vw }
+    /* pequeños ajustes móviles */
+    @media (max-width:640px){
+      .watermark{ font-size:14vw; top:4vh }
+      h1{ font-size:1.4rem }
+      .content{ margin:6vh 12px; padding:0 6px }
     }
   </style>
 </head>
 <body>
+  <!-- SLIDESHOW: las imágenes deben estar en la raíz del repo con EXACTAMENTE estos nombres -->
   <div class="slideshow" aria-hidden="true">
-    <!-- Las imágenes deben estar en la raíz del repositorio con estos nombres -->
     <img src="20240704_152540.jpg" alt="foto 1">
     <img src="20240425_171143.jpg" alt="foto 2">
     <img src="IMG-20240111-WA0011.jpg" alt="foto 3">
@@ -92,48 +115,61 @@
     <img src="105_0.jpg" alt="foto 5">
   </div>
 
-  <div class="overlay"></div>
-  <div class="watermark">Feliz aniversario</div>
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="watermark" aria-hidden="true">Feliz aniversario</div>
 
   <main class="content" role="main" aria-labelledby="title">
     <h1 id="title">Mi amor, 5 años contigo</h1>
     <h2>Gracias por cada día a tu lado</h2>
 
-    <!-- Texto largo y emotivo -->
     <p>
-      Hoy, al mirar atrás y contar cinco años desde el día en que nuestras vidas se entrelazaron, siento una mezcla de asombro y gratitud que no sé cómo explicar con precisión, pero que intento dejar aquí con todo mi corazón. Conocerte fue como encontrar una casa cálida en medio de una noche fría: una llegada que me enseñó lo que significa sentir paz, deseo y compañía verdadera.
+      Hoy, al mirar atrás y contar cinco años desde que nuestras vidas se cruzaron, me invade una emoción profunda que no sé si puedo describir con palabras, pero lo intentaré porque te lo mereces todo. Conocerte fue como encontrar un faro en la oscuridad: una luz que me marcó el camino y me mostró que la vida puede ser más cálida, más brillante y más plena cuando se comparte con la persona correcta.
     </p>
 
     <p>
-      No ha sido un camino hecho solo de alegrías, y lo sabes. Hemos tenido pruebas, discusiones, silencios que parecían largos, días en que no supimos si podríamos seguir, y sin embargo aquí estamos, resistiendo. Eso, para mí, es la prueba más hermosa de que lo que tenemos vale la pena. Aprendí que amar no es solo celebrar los momentos bonitos, sino ponerse de pie y seguir caminando cuando el mundo nos exige más. Aprendí que tus manos son un refugio y que tus palabras pueden curar mis dudas.
+      Estos años han estado llenos de momentos que atesoro: las risas que resonaron en nuestras conversaciones, las miradas cómplices que decían más que mil palabras, las pequeñas aventuras que se volvieron recuerdos y hasta las tardes tranquilas en silencio que hablaron de confianza y paz. También vinieron las pruebas: días en los que discutimos, noches en las que la incertidumbre nos tocó la puerta y momentos en que las diferencias hicieron que nos cuestionáramos. Aun así, seguimos; y eso me demuestra, cada día, que lo nuestro es fuerte y verdadero.
     </p>
 
     <p>
-      Quiero que sepas lo profundamente agradecido que estoy por ti: por tu paciencia cuando me equivoco, por tu risa que ilumina mis peores días, por esos detalles pequeños que solo tú sabes hacer y que me recuerdan a diario por qué te elegí y por qué te seguiría eligiendo. Gracias por las conversaciones largas hasta la madrugada, por los planes improvisados, por los abrazos en los que no hacen falta palabras, y por confiar en mí incluso cuando yo dudo. 
+      Quiero que sepas que agradezco cada detalle tuyo: tu paciencia cuando me equivoco, tu risa en los días grises, los gestos que nadie más podría comprender. Me has enseñado a ser más amable, a mirar con más ternura y a valorar lo sencillo. Gracias por las palabras que curaron mis miedos, por las veces que sostuviste mi mano sin preguntar, y por construir conmigo rutinas que hoy forman parte de nuestra historia.
     </p>
 
     <p>
-      También quiero hablar de mi miedo, de ese temor silencioso que a veces aparece: la idea de perderte. No lo digo para asustarte, lo digo para ser honesto contigo. Te temo porque te quiero con una fuerza que asusta; te temo porque tu ausencia sería un hueco que nada podría llenar. Pero ese miedo no me paraliza: me enseña a cuidar lo que tenemos, a esforzarme cada día, a escuchar más y a ser mejor para nosotros. Prometo esforzarme por convertir ese temor en acción: en cuidado, en tiempo compartido, en más ternura y menos orgullo.
+      Confieso también que a veces siento miedo —un miedo silencioso— a perderte. No lo digo para alarmarte, sino para mostrarte lo real que es lo que siento: que tu sola presencia llena espacios que yo no sabía que existían, y que imaginarme sin ti deja un hueco que asusta. Ese temor me empuja a cuidarte mejor, a escuchar con más atención, a priorizar lo que realmente importa y a convertir cada día en una oportunidad para demostrarte cuánto vales.
     </p>
 
     <p>
-      Me hace feliz recordar todos los pequeños rituales que creamos: la forma en que compartimos canciones, las comidas que preparamos juntos, los chistes que solo nosotros entendemos, y hasta las rutinas que nos hacen únicos. Me hace feliz pensar en un futuro donde sigamos coleccionando recuerdos, donde las caídas solo sean excusas para abrazarnos más fuerte y donde tengamos la tranquilidad de saber que, pese a todo, elegimos estar juntos.
+      Pero junto al miedo está la certeza de mi amor y la felicidad inmensa de tenerte. Tu compañía me da motivos para ser mejor y me regala esperanzas para el futuro. Me hace feliz despertar sabiendo que compartiré conmigo tus días; me hace feliz planear sueños a tu lado y celebrar cada logro, por pequeño que sea. Tenerte es un regalo que agradezco a diario.
     </p>
 
     <p>
-      Si tuviera que prometerte algo ahora, sería prometerte presencia. Prometerte que en los días buenos celebraré con intensidad y en los días malos permaneceré. Prometerte que buscaré siempre la ternura, la escucha y el diálogo. Prometerte que no daré por sentado lo que eres y lo que hacemos. Y prometerte, sobre todo, que mi amor por ti seguirá creciendo, que no es estático: cambia, se adapta y se hace más fuerte con cada prueba que superamos.
+      Hoy te prometo presencia: en las alegrías celebraré con intensidad, en las dificultades permaneceré con calma y compromiso. Prometo esforzarme por escucharte, por entenderte aún cuando no coincidamos, por ser paciente y por buscar siempre la ternura. Prometo no dar por sentado lo que eres y lo que somos; prometo trabajar por nosotros sin rendirme.
     </p>
 
     <p>
-      Gracias por elegirme, por amarme con mis fallas y por construir conmigo esta historia. Gracias por ser mi compañera, mi amiga y el abrazo más sincero. Estos cinco años son solo un capítulo —maravilloso y profundo— de la historia que quiero escribir contigo. No quiero un final para esa historia; quiero que siga, año tras año, con respeto, risas, sueños cumplidos y muchos amaneceres compartidos.
+      Sueño con un futuro donde sigamos coleccionando amaneceres juntos, donde las pruebas nos hagan más fuertes y donde cada aniversario sea un recordatorio de la elección diaria de amarnos. Quiero que sigamos creando recuerdos, que sigamos riendo de lo cotidiano, que sigamos perdonando con rapidez y que sigamos abrazándonos con la misma intensidad de aquel primer tiempo.
     </p>
 
     <p class="small">
-      Con todo mi amor, hoy y siempre. <br>
-      Tuyo, ahora y para siempre.
+      Gracias por elegirme, por tu paciencia, por tu ternura y por ser mi compañera. Estos cinco años son un capítulo precioso de lo que deseo sea una historia larga y sin final. Con todo mi amor, siempre tuyo.
     </p>
-
-    <div class="footer">feliz aniversario y gracias por seguir conmigo.</div>
   </main>
+
+  <script>
+    // generar corazones decorativos
+    function createHeart() {
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.top = '-' + (Math.random() * 20 + 5) + 'vh';
+      el.style.animationDuration = (Math.random() * 4 + 4) + 's';
+      el.style.opacity = (Math.random() * 0.4 + 0.6);
+      document.body.appendChild(el);
+      setTimeout(()=> el.remove(), 9000);
+    }
+    // crear algunos corazones rápidamente
+    for(let i=0;i<12;i++) setTimeout(createHeart, i*220);
+    setInterval(createHeart, 600);
+  </script>
 </body>
 </html>
